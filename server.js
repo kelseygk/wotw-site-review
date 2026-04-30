@@ -149,11 +149,11 @@ OTHERWISE return JSON (no backticks):
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 2500,
+        max_tokens: 1500,
         tools: [{ type: WEB_SEARCH_TOOL, name: "web_search" }],
         messages: [{ role: "user", content: prompt }],
       }),
-      signal: AbortSignal.timeout(25000),
+      signal: AbortSignal.timeout(28000),
     });
 
     const data = await anthropicResponse.json();
