@@ -469,20 +469,26 @@ async function unlockGate(e){
   } catch(_){}
 
   // Notify parent if in iframe (for Squarespace height adjustment)
-  if(window.parent !== window){
-    window.parent.postMessage({ type: "wotw-review-height", height: document.body.scrollHeight }, "*");
-  }
+  sendHeight();
 }
 
 function esc(s){ var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
 // Auto-resize message for iframe embedding
+var PARENT_ORIGINS = ["https://www.weekofthewebsite.com", "https://weekofthewebsite.com"];
+var heightPending = false;
 function sendHeight(){
-  if(window.parent !== window){
-    window.parent.postMessage({ type: "wotw-review-height", height: document.body.scrollHeight }, "*");
-  }
+  if(window.parent === window || heightPending) return;
+  heightPending = true;
+  requestAnimationFrame(function(){
+    heightPending = false;
+    var msg = { type: "wotw-review-height", height: document.body.scrollHeight };
+    PARENT_ORIGINS.forEach(function(origin){
+      try { window.parent.postMessage(msg, origin); } catch(_){}
+    });
+  });
 }
-new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true });
 window.addEventListener("resize", sendHeight);
 </script>
 </body>
