@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const WEBHOOK_URL = process.env.WEBHOOK_URL || "";
 const CALENDLY_URL = process.env.CALENDLY_URL || "";
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5";
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-haiku-4-5";
 const WEB_SEARCH_TOOL = "web_search_20250305";
 
 const COLLECTIONS = [
