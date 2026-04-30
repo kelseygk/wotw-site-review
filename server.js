@@ -157,6 +157,16 @@ OTHERWISE return JSON (no backticks):
     });
 
     const data = await anthropicResponse.json();
+
+    if (!anthropicResponse.ok || data.type === "error") {
+      console.error(
+        "Anthropic API error:",
+        anthropicResponse.status,
+        JSON.stringify(data).slice(0, 800),
+      );
+      return res.status(502).json({ error: "Upstream review service error" });
+    }
+
     const responseText = (data.content || [])
       .filter((block) => block.type === "text")
       .map((block) => block.text)
@@ -176,7 +186,14 @@ OTHERWISE return JSON (no backticks):
     }
 
     if (!parsed) {
-      console.error("Could not parse Anthropic response:", clean.slice(0, 500));
+      console.error(
+        "Could not parse Anthropic response. stop_reason=",
+        data.stop_reason,
+        "content_types=",
+        (data.content || []).map((b) => b.type).join(","),
+        "text=",
+        clean.slice(0, 500),
+      );
       return res.status(500).json({ error: "Could not parse review" });
     }
 
