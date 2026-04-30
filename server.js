@@ -70,33 +70,6 @@ function clamp(value) {
   return typeof value === "string" ? value.slice(0, MAX_TEXT) : "";
 }
 
-function extractJson(text) {
-  try { return JSON.parse(text); } catch {}
-  const start = text.indexOf("{");
-  if (start === -1) return null;
-  let depth = 0;
-  let inStr = false;
-  let escape = false;
-  for (let i = start; i < text.length; i++) {
-    const c = text[i];
-    if (inStr) {
-      if (escape) escape = false;
-      else if (c === "\\") escape = true;
-      else if (c === '"') inStr = false;
-      continue;
-    }
-    if (c === '"') inStr = true;
-    else if (c === "{") depth++;
-    else if (c === "}") {
-      depth--;
-      if (depth === 0) {
-        try { return JSON.parse(text.slice(start, i + 1)); } catch { return null; }
-      }
-    }
-  }
-  return null;
-}
-
 app.post("/api/review", apiLimiter, async (req, res) => {
   const { action, url, email, site_name, industry, first_impression, start_here } = req.body || {};
 
@@ -208,7 +181,13 @@ CRITICAL OUTPUT RULES:
       .replace(/<\/?cite\b[^>]*>/g, "")
       .trim();
 
-    const parsed = extractJson(clean);
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch {
+      const match = clean.match(/\{[\s\S]*\}/);
+      try { parsed = match ? JSON.parse(match[0]) : null; } catch { parsed = null; }
+    }
 
     if (!parsed) {
       console.error(
