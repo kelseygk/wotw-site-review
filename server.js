@@ -137,7 +137,7 @@ OTHERWISE return JSON (no backticks):
   "collection_context":"Why this collection matches. 1 sentence."
 }
 
-2 strengths. 4-5 opportunities. Honest but kind. Reference actual site content. No scores/grades. Collections from: ${COLLECTIONS}`;
+2 strengths. 4-5 opportunities. Honest but kind. Reference actual site content. No scores/grades. Do not include <cite> tags or any citation markers — write as continuous prose. Collections from: ${COLLECTIONS}`;
 
   try {
     const anthropicResponse = await fetch("https://api.anthropic.com/v1/messages", {
@@ -171,7 +171,10 @@ OTHERWISE return JSON (no backticks):
       .filter((block) => block.type === "text")
       .map((block) => block.text)
       .join("");
-    const clean = responseText.replace(/```json|```/g, "").trim();
+    const clean = responseText
+      .replace(/```json|```/g, "")
+      .replace(/<\/?cite\b[^>]*>/g, "")
+      .trim();
 
     let parsed;
     try {
