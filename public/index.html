@@ -22,7 +22,7 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:var(--f);background:var(--ow);color:var(--maroon);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:var(--f);background:transparent;color:var(--maroon);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 input:focus,button:focus{outline:none}
 input::placeholder{color:var(--sf)}
 .hidden{display:none!important}
@@ -54,7 +54,7 @@ input::placeholder{color:var(--sf)}
 .err-msg{background:rgba(226,119,118,.07);border:1px solid rgba(226,119,118,.19);border-radius:12px;padding:14px 18px;font-size:14px;color:var(--brown)}
 
 /* RESULTS */
-.results{max-width:640px;margin:0 auto;padding:48px 24px 72px}
+.results{max-width:640px;margin:0 auto;padding:48px 24px 72px;background:var(--ow)}
 .mono-label{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-weight:500}
 .mono-label.muted{color:var(--ml)}
 .mono-label.green{color:var(--forest)}
@@ -475,21 +475,19 @@ async function unlockGate(e){
 function esc(s){ var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
 // Auto-resize message for iframe embedding
-var PARENT_ORIGINS = ["https://www.weekofthewebsite.com", "https://weekofthewebsite.com"];
 var heightPending = false;
 function sendHeight(){
   if(window.parent === window || heightPending) return;
   heightPending = true;
   requestAnimationFrame(function(){
     heightPending = false;
-    var msg = { type: "wotw-review-height", height: document.body.scrollHeight };
-    PARENT_ORIGINS.forEach(function(origin){
-      try { window.parent.postMessage(msg, origin); } catch(_){}
-    });
+    window.parent.postMessage({ type: "wotw-review-height", height: document.body.scrollHeight }, "*");
   });
 }
 new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true });
 window.addEventListener("resize", sendHeight);
+window.addEventListener("load", sendHeight);
+sendHeight();
 </script>
 </body>
 </html>
