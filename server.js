@@ -71,11 +71,14 @@ function clamp(value) {
 }
 
 app.post("/api/review", apiLimiter, async (req, res) => {
-  const { action, url, email, site_name, industry, first_impression, start_here } = req.body || {};
+  const { action, url, email, name, site_name, industry, first_impression, start_here } = req.body || {};
 
   if (action === "lead") {
     if (typeof email !== "string" || !EMAIL_RE.test(email) || email.length > 254) {
       return res.status(400).json({ error: "Valid email required" });
+    }
+    if (typeof name !== "string" || name.trim().length === 0 || name.length > 100) {
+      return res.status(400).json({ error: "Name required" });
     }
     if (!WEBHOOK_URL) {
       console.error("WEBHOOK_URL not configured — lead dropped:", email);
@@ -86,6 +89,7 @@ app.post("/api/review", apiLimiter, async (req, res) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        name: name.trim(),
         email,
         site_url: clamp(url),
         site_name: clamp(site_name),

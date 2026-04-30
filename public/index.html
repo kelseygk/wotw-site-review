@@ -202,8 +202,9 @@ input::placeholder{color:var(--sf)}
   <div class="gate hidden" id="gate">
     <div class="mono-label lime" id="gateCount"></div>
     <h3>See the full picture</h3>
-    <p class="gate-desc">Drop your email to unlock the rest -- plus our "what we'd do" for every item.</p>
+    <p class="gate-desc">Drop your name and email to unlock the rest -- plus our "what we'd do" for every item.</p>
     <form class="gate-form" onsubmit="unlockGate(event)">
+      <input type="text" class="gate-input" id="gateName" placeholder="Your name" maxlength="100" required>
       <input type="email" class="gate-input" id="gateEmail" placeholder="you@yourbusiness.com" required>
       <button type="submit" class="gate-btn">Unlock</button>
     </form>
@@ -435,8 +436,9 @@ function toggleOpp(id){
 // ── GATE UNLOCK ──
 async function unlockGate(e){
   e.preventDefault();
+  var name = $("gateName").value.trim();
   var email = $("gateEmail").value.trim();
-  if(!email) return;
+  if(!name || !email) return;
 
   // Unlock immediately
   hide("gate");
@@ -456,7 +458,7 @@ async function unlockGate(e){
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
-        action: "lead", email: email, url: currentUrl,
+        action: "lead", name: name, email: email, url: currentUrl,
         site_name: reviewData?.site_name || "",
         industry: reviewData?.collections?.[0] || "",
         first_impression: reviewData?.first_impression || "",
