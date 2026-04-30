@@ -70,6 +70,33 @@ function clamp(value) {
   return typeof value === "string" ? value.slice(0, MAX_TEXT) : "";
 }
 
+function extractJson(text) {
+  try { return JSON.parse(text); } catch {}
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  let inStr = false;
+  let escape = false;
+  for (let i = start; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) {
+      if (escape) escape = false;
+      else if (c === "\\") escape = true;
+      else if (c === '"') inStr = false;
+      continue;
+    }
+    if (c === '"') inStr = true;
+    else if (c === "{") depth++;
+    else if (c === "}") {
+      depth--;
+      if (depth === 0) {
+        try { return JSON.parse(text.slice(start, i + 1)); } catch { return null; }
+      }
+    }
+  }
+  return null;
+}
+
 app.post("/api/review", apiLimiter, async (req, res) => {
   const { action, url, email, site_name, industry, first_impression, start_here } = req.body || {};
 
@@ -121,11 +148,11 @@ app.post("/api/review", apiLimiter, async (req, res) => {
   const safeUrl = parsedUrl.toString();
   const domain = parsedUrl.hostname.replace(/^www\./, "");
 
-  const prompt = `Senior web strategist at Week of the Website (WOTW). 1,000+ launches since 2014. Warm, direct, specific voice. Analyze ${safeUrl} via web search.
+  const prompt = `You are a senior web strategist at Week of the Website (WOTW). 1,000+ launches since 2014. Warm, direct, specific voice. Analyze ${safeUrl} via web search (max 5 searches).
 
-FIRST: Check for "Week of the Website" or "WOTW" or "weekofthewebsite" anywhere on the site (footer, credits, links). Also search "${domain} week of the website". If found, return ONLY: {"is_wotw":true,"site_name":"Business Name"}
+FIRST: Check for "Week of the Website" or "WOTW" or "weekofthewebsite" anywhere on the site (footer, credits, links). Also search "${domain} week of the website". If found, output ONLY: {"is_wotw":true,"site_name":"Business Name"}
 
-OTHERWISE return JSON (no backticks):
+OTHERWISE output this JSON shape:
 {
   "is_wotw":false,
   "site_name":"Business Name",
@@ -137,7 +164,12 @@ OTHERWISE return JSON (no backticks):
   "collection_context":"Why this collection matches. 1 sentence."
 }
 
-2 strengths. 4-5 opportunities. Honest but kind. Reference actual site content. No scores/grades. Do not include <cite> tags or any citation markers — write as continuous prose. Collections from: ${COLLECTIONS}`;
+2 strengths. 4-5 opportunities. Honest but kind. Reference actual site content. No scores/grades. Collections from: ${COLLECTIONS}.
+
+CRITICAL OUTPUT RULES:
+- Output ONLY the JSON object. No prose before or after. No markdown fences. No explanations of what you're about to do.
+- Do not include <cite> tags or any citation markers — write quotes and observations as plain prose.
+- Begin your response with the opening { and end with the closing }.`;
 
   try {
     const anthropicResponse = await fetch("https://api.anthropic.com/v1/messages", {
@@ -149,7 +181,7 @@ OTHERWISE return JSON (no backticks):
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 1500,
+        max_tokens: 2000,
         tools: [{ type: WEB_SEARCH_TOOL, name: "web_search", max_uses: 5 }],
         messages: [{ role: "user", content: prompt }],
       }),
@@ -176,17 +208,7 @@ OTHERWISE return JSON (no backticks):
       .replace(/<\/?cite\b[^>]*>/g, "")
       .trim();
 
-    let parsed;
-    try {
-      parsed = JSON.parse(clean);
-    } catch {
-      const jsonMatch = clean.match(/\{[\s\S]*\}/);
-      try {
-        parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
-      } catch {
-        parsed = null;
-      }
-    }
+    const parsed = extractJson(clean);
 
     if (!parsed) {
       console.error(
