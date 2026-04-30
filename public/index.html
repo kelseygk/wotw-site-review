@@ -31,8 +31,7 @@ input::placeholder{color:var(--sf)}
 @keyframes drift{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
 
 /* HERO */
-.hero{background:var(--forest);padding:72px 24px 64px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:450px;height:450px;background:radial-gradient(circle,rgba(212,242,102,.1) 0%,transparent 70%);pointer-events:none}
+.hero{padding:72px 24px 64px;position:relative;overflow:hidden}
 .hero-in{max-width:580px;margin:0 auto;position:relative;z-index:1;text-align:center}
 .hero-tag{font-family:var(--m);font-size:11px;color:var(--lime);letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px}
 .hero h1{font-size:clamp(30px,5vw,44px);font-weight:700;color:var(--ow);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
@@ -297,7 +296,7 @@ function buildCtaButtons(containerId, campaign, email){
     var mailto = "mailto:hello@weekofthewebsite.com?subject=Ready%20for%20the%20next%20chapter&body=Hi%20WOTW%20team!%20Reaching%20out%20about%20" + encodeURIComponent(currentUrl||'') + "%20-%20interested%20in%20taking%20things%20to%20the%20next%20level.";
     html += '<a class="btn-ghost" href="'+mailto+'">Or email us</a>';
   } else {
-    html += '<a class="btn-ghost" href="https://www.weekofthewebsite.com/choose-your-week" target="_blank" rel="noopener noreferrer">Learn more</a>';
+    html += '<a class="btn-ghost" href="https://weekofthewebsite.squarespace.com/website-design-process" target="_blank" rel="noopener noreferrer">Learn more</a>';
   }
   el.innerHTML = html;
 }
