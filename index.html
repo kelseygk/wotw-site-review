@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complimentary Site Review | Week of the Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/*
+  WCAG AA Color System
+  Forest bg:  #faf3ef=7.8  #c5cbc5=5.2  #b0c0ba=4.5  #d4f266=6.8
+  OffWhite bg: #470f12=14.2 #73322d=8.6  #6b5d58=5.7  #26544a=7.8
+*/
+:root{
+  --forest:#26544a;--lime:#d4f266;--maroon:#470f12;--ow:#faf3ef;
+  --cream:#fff9cc;--brown:#73322d;--salmon:#e27776;
+  --mf:#c5cbc5;--sf:#b0c0ba;--ml:#6b5d58;
+  --f:'DM Sans','Helvetica Neue',sans-serif;
+  --m:'DM Mono','Courier New',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--ow);color:var(--maroon);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+input:focus,button:focus{outline:none}
+input::placeholder{color:var(--sf)}
+.hidden{display:none!important}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes drift{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+
+/* HERO */
+.hero{background:var(--forest);padding:72px 24px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:450px;height:450px;background:radial-gradient(circle,rgba(212,242,102,.1) 0%,transparent 70%);pointer-events:none}
+.hero-in{max-width:580px;margin:0 auto;position:relative;z-index:1;text-align:center}
+.hero-tag{font-family:var(--m);font-size:11px;color:var(--lime);letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(30px,5vw,44px);font-weight:700;color:var(--ow);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero h1 span{color:var(--lime)}
+.hero-sub{font-size:17px;color:var(--mf);line-height:1.6;max-width:440px;margin:0 auto 32px;font-weight:300}
+.url-row{display:flex;gap:10px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.url-box{flex:1 1 280px;display:flex;align-items:center;background:rgba(250,243,239,.04);border:1.5px solid rgba(250,243,239,.13);border-radius:28px;padding:4px 4px 4px 18px}
+.url-pre{font-family:var(--m);font-size:13px;color:var(--sf);flex-shrink:0}
+.url-input{flex:1;background:transparent;border:none;color:var(--ow);font-family:var(--f);font-size:15px;padding:12px 8px;min-width:0}
+.btn-go{background:var(--lime);color:var(--forest);border:none;border-radius:28px;padding:14px 28px;font-family:var(--f);font-weight:600;font-size:15px;cursor:pointer;transition:all .25s;white-space:nowrap}
+.btn-go:disabled{opacity:.5;cursor:wait}
+.loader{margin-top:28px;animation:fi .3s ease}
+.loader-bar{width:180px;height:2px;background:rgba(250,243,239,.1);border-radius:1px;margin:0 auto 14px;overflow:hidden}
+.loader-fill{width:30%;height:100%;background:var(--lime);border-radius:1px;animation:drift 1.8s ease-in-out infinite}
+.loader-msg{font-family:var(--m);font-size:12px;color:var(--sf);animation:pulse 2.5s ease infinite}
+
+/* ERROR */
+.err-box{max-width:560px;margin:32px auto;padding:0 24px}
+.err-msg{background:rgba(226,119,118,.07);border:1px solid rgba(226,119,118,.19);border-radius:12px;padding:14px 18px;font-size:14px;color:var(--brown)}
+
+/* RESULTS */
+.results{max-width:640px;margin:0 auto;padding:48px 24px 72px}
+.mono-label{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-weight:500}
+.mono-label.muted{color:var(--ml)}
+.mono-label.green{color:var(--forest)}
+.mono-label.lime{color:var(--lime)}
+
+/* FIRST IMPRESSION */
+.fi-text{font-size:18px;line-height:1.7;color:var(--maroon);font-weight:400;font-style:italic;margin:0 0 40px}
+
+/* STRENGTHS */
+.str-item{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid rgba(38,84,74,.06);animation:fi .4s ease both}
+.str-icon{width:32px;height:32px;border-radius:50%;background:rgba(38,84,74,.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.str-title{font-weight:600;font-size:15px;color:var(--maroon);margin-bottom:4px}
+.str-detail{font-size:14px;line-height:1.6;color:var(--brown);margin:0}
+
+/* START HERE */
+.start-box{background:var(--forest);border-radius:14px;padding:22px 24px;margin-bottom:32px;animation:fi .4s ease .3s both}
+.start-box p{font-size:15px;line-height:1.6;color:var(--ow);margin:0}
+
+/* OPPORTUNITIES */
+.opp-card{background:white;border-radius:14px;padding:22px 24px;margin-bottom:14px;border:1px solid rgba(38,84,74,.06);cursor:pointer;transition:all .2s;animation:fi .4s ease both}
+.opp-card.locked{opacity:.45;filter:blur(3px);cursor:default;user-select:none}
+.opp-top{display:flex;align-items:flex-start;gap:14px}
+.opp-icon{width:32px;height:32px;border-radius:50%;background:rgba(212,242,102,.19);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.opp-body{flex:1;min-width:0}
+.opp-title{font-weight:600;font-size:16px;color:var(--maroon)}
+.opp-obs{font-size:14px;line-height:1.6;color:var(--brown);margin:6px 0 0}
+.opp-expand{margin-top:16px;margin-left:46px;padding:14px 18px;background:rgba(38,84,74,.03);border-radius:10px;border-left:3px solid var(--lime);animation:fi .3s ease}
+.opp-expand-label{font-family:var(--m);font-size:10px;color:var(--forest);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.opp-expand p{font-size:14px;line-height:1.6;color:var(--forest);margin:0}
+
+/* GATE */
+.gate{background:var(--forest);border-radius:16px;padding:28px 24px;margin:20px 0;text-align:center;animation:fi .4s ease .5s both}
+.gate h3{font-size:21px;font-weight:700;color:var(--ow);margin:0 0 6px}
+.gate-desc{font-size:14px;color:var(--mf);margin:0 0 20px;line-height:1.5}
+.gate-form{display:flex;gap:10px;max-width:380px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.gate-input{flex:1 1 200px;padding:13px 18px;border-radius:24px;border:1.5px solid rgba(250,243,239,.13);background:rgba(250,243,239,.04);color:var(--ow);font-family:var(--f);font-size:14px;min-width:0}
+.gate-btn{background:var(--lime);color:var(--forest);border:none;border-radius:24px;padding:13px 24px;font-family:var(--f);font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+.gate-fine{font-family:var(--m);font-size:11px;color:var(--sf);margin-top:12px}
+.unlocked-msg{padding:14px 18px;background:rgba(38,84,74,.04);border-radius:10px;text-align:center;margin:8px 0;border:1px solid rgba(38,84,74,.08);animation:fi .3s ease}
+.unlocked-msg p{font-size:13px;color:var(--brown);margin:0}
+
+/* COLLECTIONS */
+.cols-box{background:var(--cream);border-radius:16px;padding:28px 24px;margin-top:32px;animation:fi .4s ease .5s both}
+.cols-ctx{font-size:15px;line-height:1.65;color:var(--brown);margin:0 0 20px}
+.col-link{display:flex;align-items:center;justify-content:space-between;background:var(--ow);border-radius:10px;padding:16px 20px;text-decoration:none;border:1px solid rgba(38,84,74,.06);transition:all .2s;margin-bottom:10px}
+.col-link:hover{transform:translateY(-1px);border-color:rgba(38,84,74,.15)}
+.col-name{font-weight:600;font-size:15px;color:var(--maroon)}
+.col-sub{font-family:var(--m);font-size:11px;color:var(--ml);margin-top:2px}
+
+/* CTA */
+.cta-box{background:var(--forest);border-radius:16px;padding:30px 28px;margin-top:24px;text-align:center;animation:fi .4s ease .6s both}
+.cta-box h3{font-size:20px;font-weight:700;color:var(--ow);margin:0 0 8px}
+.cta-box>p{font-size:15px;color:var(--mf);margin:0 0 24px;line-height:1.6}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
+.btn-cal{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--forest);padding:13px 26px;border-radius:28px;text-decoration:none;font-weight:600;font-size:15px;transition:all .25s}
+.btn-cal:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,242,102,.3)}
+.btn-ghost{font-family:var(--m);font-size:13px;color:var(--sf);text-decoration:none;padding:13px 20px;border-radius:28px;border:1.5px solid rgba(250,243,239,.13);transition:all .2s}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+
+/* ALUMNI */
+.alumni{max-width:560px;margin:0 auto;padding:48px 24px 72px;animation:fi .5s ease}
+.alumni-card{background:var(--forest);border-radius:20px;padding:48px 36px;text-align:center;position:relative;overflow:hidden}
+.alumni-card::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(212,242,102,.12) 0%,transparent 70%);pointer-events:none}
+.alumni-inner{position:relative;z-index:1}
+.alumni-heart{width:64px;height:64px;border-radius:50%;background:rgba(212,242,102,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.alumni h2{font-size:26px;font-weight:700;color:var(--ow);margin:0 0 12px}
+.alumni p{font-size:17px;color:var(--mf);line-height:1.65;margin:0 0 8px}
+.alumni p:last-of-type{margin-bottom:32px}
+.alumni-note{font-family:var(--m);font-size:12px;color:var(--sf);margin-top:20px}
+
+/* FOOTER */
+.foot{text-align:center;margin-top:36px;padding-top:20px;border-top:1px solid rgba(38,84,74,.06)}
+.foot p{font-family:var(--m);font-size:11px;color:var(--ml);line-height:1.7}
+
+/* ICONS */
+.icon{flex-shrink:0}
+
+@media(max-width:680px){
+  .hero{padding:60px 20px 48px}
+  .results,.alumni{padding-left:20px;padding-right:20px}
+  .url-row{flex-direction:column}
+  .gate-form{flex-direction:column}
+  .cta-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="hero-tag">From Your Week of the Website Team</div>
+    <h1>Complimentary <span>Site Review</span></h1>
+    <p class="hero-sub">Paste your website URL and we'll tell you what's working, where we see opportunity, and what we would help tackle first.</p>
+    <div class="url-row">
+      <div class="url-box">
+        <span class="url-pre">https://</span>
+        <input type="text" class="url-input" id="urlInput" placeholder="yoursite.com">
+      </div>
+      <button class="btn-go" id="goBtn" onclick="runReview()">Review My Site</button>
+    </div>
+    <div class="loader hidden" id="loader">
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <p class="loader-msg" id="loaderMsg">Pulling up your site...</p>
+    </div>
+  </div>
+</div>
+
+<div class="err-box hidden" id="errBox"><div class="err-msg" id="errMsg"></div></div>
+
+<!-- ALUMNI CARD -->
+<div class="alumni hidden" id="alumni">
+  <div class="alumni-card">
+    <div class="alumni-inner">
+      <div class="alumni-heart">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d4f266" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h2>Hey! That's one of ours.</h2>
+      <p>We built <strong id="alumniName" style="color:#faf3ef"></strong> and we're glad it's still out there doing its thing.</p>
+      <p>If this is you and you're ready for the next chapter -- a refresh, a rebrand, whatever's on your mind -- let's skip the review and get straight to the good part.</p>
+      <div class="cta-row" id="alumniCta"></div>
+      <p class="alumni-note">Not you? No worries -- hit back and try another URL.</p>
+    </div>
+  </div>
+  <div class="foot"><p>A complimentary tool by Week of the Website.<br>weekofthewebsite.com -- no surprises, only delight.</p></div>
+</div>
+
+<!-- RESULTS -->
+<div class="results hidden" id="results">
+  <div class="mono-label muted" id="fiLabel"></div>
+  <p class="fi-text" id="fiText"></p>
+
+  <div id="strengthsSection" class="hidden">
+    <div class="mono-label green">What's working</div>
+    <div id="strengthsList"></div>
+  </div>
+
+  <div class="start-box hidden" id="startBox">
+    <div class="mono-label lime">If we could only change one thing</div>
+    <p id="startText"></p>
+  </div>
+
+  <div class="mono-label muted">Where we see opportunity</div>
+  <div id="oppsVisible"></div>
+
+  <div class="gate hidden" id="gate">
+    <div class="mono-label lime" id="gateCount"></div>
+    <h3>See the full picture</h3>
+    <p class="gate-desc">Drop your email to unlock the rest -- plus our "what we'd do" for every item.</p>
+    <form class="gate-form" onsubmit="unlockGate(event)">
+      <input type="email" class="gate-input" id="gateEmail" placeholder="you@yourbusiness.com" required>
+      <button type="submit" class="gate-btn">Unlock</button>
+    </form>
+    <p class="gate-fine">We'll add you to the WOTW list. No spam, unsubscribe anytime.</p>
+  </div>
+
+  <div class="unlocked-msg hidden" id="unlockedMsg"><p>Full review unlocked. Click any opportunity to see our recommendation.</p></div>
+
+  <div id="oppsGated"></div>
+
+  <div class="cols-box hidden" id="colsBox">
+    <div class="mono-label green">See what we've built in your space</div>
+    <p class="cols-ctx" id="colsCtx"></p>
+    <div id="colsList"></div>
+  </div>
+
+  <div class="cta-box" id="ctaBox">
+    <h3>Want us to take it from here?</h3>
+    <p>We're Squarespace's only Enterprise Professional Services Partner. Five business days, kickoff to launch, no surprises.</p>
+    <div class="cta-row" id="ctaRow"></div>
+  </div>
+
+  <div class="foot"><p>A complimentary tool by Week of the Website.<br>weekofthewebsite.com -- no surprises, only delight.</p></div>
+</div>
+
+<script>
+// ── CONFIG ──
+// When deploying to Vercel, set this to "" (empty) so it uses relative /api/review
+// For local testing, set to your Vercel deployment URL
+var API_URL = "/api/review";
+
+var COLLECTION_MAP = {
+  hospitality:{l:"The Restaurant & Hotel Collection",u:"https://www.weekofthewebsite.com/squarespace-hospitality-inspiration"},
+  wellness:{l:"The Healthcare & Wellness Collection",u:"https://www.weekofthewebsite.com/health-squarespace-inspiration"},
+  small_business:{l:"The Small Business Collection",u:"https://www.weekofthewebsite.com/entrepreneur-squarespace-inspiration"},
+  nonprofit:{l:"The Nonprofit & Charity Collection",u:"https://www.weekofthewebsite.com/non-profits-squarespace-inspiration"},
+  education:{l:"The School & Education Collection",u:"https://www.weekofthewebsite.com/education-squarespace-inspiration"},
+  creator:{l:"The Creator & Personal Brand Collection",u:"https://www.weekofthewebsite.com/influencers-squarespace-inspiration"},
+  agency:{l:"The Agency & Marketing Collection",u:"https://www.weekofthewebsite.com/marketing-agencies-squarespace-inspiration"},
+  real_estate:{l:"The Real Estate & Property Collection",u:"https://www.weekofthewebsite.com/real-estate-squarespace-inspiration"},
+  legal:{l:"The Legal & Law Firm Collection",u:"https://www.weekofthewebsite.com/law-firm-squarespace-inspiration"},
+  author:{l:"The Author & Publishing Collection",u:"https://www.weekofthewebsite.com/authors-squarespace-inspiration"},
+  ecommerce:{l:"The Online Store & E-Commerce Collection",u:"https://www.weekofthewebsite.com/commerce-inspiration-squarespace-shopify"},
+  consulting:{l:"The Consulting & Professional Services Collection",u:"https://www.weekofthewebsite.com/small-business-squarespace-inspiration"}
+};
+
+var SVG_CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#26544a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+var SVG_ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#26544a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+var SVG_ARROW_SM = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>';
+var SVG_CHEV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b5d58" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
+
+var msgs = ["Pulling up your site...","Looking at it like a first-time visitor...","Noting what's working...","Spotting opportunities...","Building your review..."];
+var msgInterval, msgIdx = 0;
+var currentUrl = "";
+var reviewData = null;
+var calendlyUrl = "";
+
+// ── HELPERS ──
+function $(id){ return document.getElementById(id); }
+function show(id){ $(id).classList.remove("hidden"); }
+function hide(id){ $(id).classList.add("hidden"); }
+
+function startLoader(){
+  show("loader"); msgIdx = 0;
+  $("loaderMsg").textContent = msgs[0];
+  msgInterval = setInterval(function(){
+    msgIdx = (msgIdx + 1) % msgs.length;
+    $("loaderMsg").textContent = msgs[msgIdx];
+  }, 3200);
+}
+function stopLoader(){ hide("loader"); clearInterval(msgInterval); }
+
+function buildCalendlyUrl(campaign, email){
+  if(!calendlyUrl) return "";
+  var sep = calendlyUrl.indexOf("?") > -1 ? "&" : "?";
+  var u = calendlyUrl + sep + "utm_source=site_review&utm_campaign=" + campaign;
+  if(email) u += "&email=" + encodeURIComponent(email);
+  if(currentUrl) u += "&a1=" + encodeURIComponent(currentUrl);
+  return u;
+}
+
+function buildCtaButtons(containerId, campaign, email){
+  var el = $(containerId);
+  var html = "";
+  var calUrl = buildCalendlyUrl(campaign, email);
+  if(calUrl){
+    html += '<a class="btn-cal" href="'+calUrl+'" target="_blank" rel="noopener noreferrer">Book a Call '+SVG_ARROW_SM+'</a>';
+  }
+  if(campaign === "wotw_alumni"){
+    var mailto = "mailto:hello@weekofthewebsite.com?subject=Ready%20for%20the%20next%20chapter&body=Hi%20WOTW%20team!%20Reaching%20out%20about%20" + encodeURIComponent(currentUrl||'') + "%20-%20interested%20in%20taking%20things%20to%20the%20next%20level.";
+    html += '<a class="btn-ghost" href="'+mailto+'">Or email us</a>';
+  } else {
+    html += '<a class="btn-ghost" href="https://www.weekofthewebsite.com/choose-your-week" target="_blank" rel="noopener noreferrer">Learn more</a>';
+  }
+  el.innerHTML = html;
+}
+
+// ── REVIEW ──
+async function runReview(){
+  var raw = $("urlInput").value.trim();
+  if(!raw) return;
+  currentUrl = raw.indexOf("http") === 0 ? raw : "https://" + raw;
+
+  $("goBtn").disabled = true;
+  $("goBtn").textContent = "Reviewing...";
+  hide("errBox"); hide("alumni"); hide("results");
+  startLoader();
+
+  try {
+    var res = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ action: "review", url: currentUrl })
+    });
+    var data = await res.json();
+    if(data.error) throw new Error(data.error);
+
+    calendlyUrl = data.calendly || "";
+
+    if(data.is_wotw){
+      showAlumni(data);
+    } else {
+      reviewData = data;
+      showResults(data);
+    }
+  } catch(e){
+    $("errMsg").textContent = "Something went wrong. Double-check the URL and try again.";
+    show("errBox");
+  } finally {
+    stopLoader();
+    $("goBtn").disabled = false;
+    $("goBtn").textContent = "Review My Site";
+  }
+}
+
+$("urlInput").addEventListener("keydown", function(e){
+  if(e.key === "Enter") runReview();
+});
+
+// ── ALUMNI ──
+function showAlumni(data){
+  $("alumniName").textContent = data.site_name || "this site";
+  buildCtaButtons("alumniCta", "wotw_alumni", "");
+  show("alumni");
+  $("alumni").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ── RESULTS ──
+function showResults(data){
+  // First impression
+  $("fiLabel").textContent = "Our review of " + (data.site_name || currentUrl);
+  $("fiText").textContent = data.first_impression || "";
+
+  // Strengths
+  if(data.strengths && data.strengths.length){
+    var html = "";
+    data.strengths.forEach(function(s, i){
+      html += '<div class="str-item" style="animation-delay:'+i*0.1+'s">' +
+        '<div class="str-icon">'+SVG_CHECK+'</div><div>' +
+        '<div class="str-title">'+esc(s.title)+'</div>' +
+        '<p class="str-detail">'+esc(s.detail)+'</p></div></div>';
+    });
+    $("strengthsList").innerHTML = html;
+    show("strengthsSection");
+  }
+
+  // Start here
+  if(data.start_here){
+    $("startText").textContent = data.start_here;
+    show("startBox");
+  }
+
+  // Opportunities
+  var opps = data.opportunities || [];
+  var visOpps = opps.slice(0, 3);
+  var gatedOpps = opps.slice(3);
+
+  $("oppsVisible").innerHTML = visOpps.map(function(o, i){ return oppCard(o, i, false); }).join("");
+  $("oppsGated").innerHTML = gatedOpps.map(function(o, i){ return oppCard(o, i+3, true); }).join("");
+
+  if(gatedOpps.length){
+    $("gateCount").textContent = gatedOpps.length + " more " + (gatedOpps.length === 1 ? "opportunity" : "opportunities") + " + our recommendations";
+    show("gate");
+  }
+
+  // Collections
+  var cols = (data.collections || []).map(function(k){ return COLLECTION_MAP[k]; }).filter(Boolean);
+  if(cols.length){
+    if(data.collection_context) $("colsCtx").textContent = data.collection_context;
+    $("colsList").innerHTML = cols.map(function(c){
+      return '<a class="col-link" href="'+c.u+'" target="_blank" rel="noopener noreferrer"><div>' +
+        '<div class="col-name">'+esc(c.l)+'</div>' +
+        '<div class="col-sub">Browse the collection</div></div>' +
+        '<svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#26544a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>';
+    }).join("");
+    show("colsBox");
+  }
+
+  // CTA
+  buildCtaButtons("ctaRow", "complimentary_review", "");
+
+  show("results");
+  $("results").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function oppCard(o, i, locked){
+  var id = "opp-" + i;
+  var cls = "opp-card" + (locked ? " locked" : "");
+  var delay = (i * 0.08 + 0.2) + "s";
+  var click = locked ? "" : ' onclick="toggleOpp(\''+id+'\')"';
+  return '<div class="'+cls+'" id="'+id+'" style="animation-delay:'+delay+'"'+click+'>' +
+    '<div class="opp-top"><div class="opp-icon">'+SVG_ARROW+'</div>' +
+    '<div class="opp-body"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px">' +
+    '<div class="opp-title">'+esc(o.title)+'</div>' +
+    (locked ? '' : '<span class="opp-chev" data-for="'+id+'">'+SVG_CHEV+'</span>') +
+    '</div><p class="opp-obs">'+esc(o.observation)+'</p></div></div>' +
+    (o.suggestion ? '<div class="opp-expand hidden" id="'+id+'-exp"><div class="opp-expand-label">What we\'d do</div><p>'+esc(o.suggestion)+'</p></div>' : '') +
+    '</div>';
+}
+
+function toggleOpp(id){
+  var exp = $(id + "-exp");
+  if(!exp) return;
+  exp.classList.toggle("hidden");
+  var chev = document.querySelector('.opp-chev[data-for="'+id+'"]');
+  if(chev) chev.style.transform = exp.classList.contains("hidden") ? "rotate(0)" : "rotate(180deg)";
+}
+
+// ── GATE UNLOCK ──
+async function unlockGate(e){
+  e.preventDefault();
+  var email = $("gateEmail").value.trim();
+  if(!email) return;
+
+  // Unlock immediately
+  hide("gate");
+  show("unlockedMsg");
+  document.querySelectorAll(".opp-card.locked").forEach(function(el){
+    el.classList.remove("locked");
+    var i = el.id;
+    el.setAttribute("onclick", "toggleOpp('"+i+"')");
+  });
+
+  // Update CTA with email
+  buildCtaButtons("ctaRow", "complimentary_review", email);
+
+  // Send lead to backend (non-blocking)
+  try {
+    var res = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        action: "lead", email: email, url: currentUrl,
+        site_name: reviewData?.site_name || "",
+        industry: reviewData?.collections?.[0] || "",
+        first_impression: reviewData?.first_impression || "",
+        start_here: reviewData?.start_here || ""
+      })
+    });
+    var data = await res.json();
+    if(data.calendly) calendlyUrl = data.calendly;
+    buildCtaButtons("ctaRow", "complimentary_review", email);
+  } catch(_){}
+
+  // Notify parent if in iframe (for Squarespace height adjustment)
+  if(window.parent !== window){
+    window.parent.postMessage({ type: "wotw-review-height", height: document.body.scrollHeight }, "*");
+  }
+}
+
+function esc(s){ var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+
+// Auto-resize message for iframe embedding
+function sendHeight(){
+  if(window.parent !== window){
+    window.parent.postMessage({ type: "wotw-review-height", height: document.body.scrollHeight }, "*");
+  }
+}
+new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+window.addEventListener("resize", sendHeight);
+</script>
+</body>
+</html>
